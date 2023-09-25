@@ -3,6 +3,7 @@ from pathlib import Path
 import duckdb as dd
 from duckdb import DuckDBPyConnection
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
 import uvicorn
 
 from ares.models.character.character import Character, init_char_pq_path
@@ -42,6 +43,16 @@ conn = init_db(test=False)
 
 # /v1/characters
 char_ept = "/v1/characters/"
+
+@app.get(f"{char_ept}parquet")
+async def get_parquet():
+    df = conn.sql("SELECT * FROM char_db")
+    pq_path = Path("parquet/saved.parquet")
+    if pq_path.exists():
+        pq_path.unlink()
+    pq_path.parent.mkdir(parents=True, exist_ok=True)
+    df.write_parquet("parquet/saved.parquet", compression="snappy")
+    return FileResponse(pq_path)
 
 
 # Create 

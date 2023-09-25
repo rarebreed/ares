@@ -1,18 +1,15 @@
 
 from pathlib import Path
 from random import randint, random
-from typing import Iterable
 from uuid import uuid4
 
 import pyarrow as pa
 from pydantic import BaseModel
-
-init_char_db_path = Path(__file__).parent.parent.parent / "db/characters/character_init.json"
 init_char_pq_path = Path(__file__).parent.parent.parent / "db/characters/character_init.parquet"
 
 def die(num: int, size: int = 20):
     def pool():
-        for i in range(num):
+        for _ in range(num):
             yield randint(1, size)
     return pool
 
@@ -57,12 +54,6 @@ class Character(BaseModel):
                 "Climbing": sum(best_of(list(pool()), 3))
             }
         )
-
-    def save_json(self, db_path: Path | None = None):
-        if db_path is None:
-            db_path = init_char_db_path
-        with open(db_path, "wa") as json_f:
-            json_f.write(self.model_dump_json() + "\n")
 
     @staticmethod
     def arrow_schema():
