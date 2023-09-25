@@ -24,6 +24,7 @@ pytest = "^7.4.2"
 pytest-asyncio = "^0.21.1"
 ruff = "^0.0.291"
 autopep8 = "^2.0.4"
+ipykernel = "^6.25.2"
 
 [build-system]
 requires = ["poetry-core"]
