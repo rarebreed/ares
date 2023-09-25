@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "ares"
+version = "0.1.0"
+description = ""
+authors = ["Sean Toner <placeoftheway@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "<3.13,>=3.11"
+# Http service
+fastapi = {extras = ["all"], version = "^0.103.1"}
+# Http client including async
+httpx = "^0.25.0"
+# Schemas, Validation, and (De)Serialization
+pydantic = "^2.3.0"
+# Async usgi web service "engine" that fastapi will run on
+uvicorn = {extras = ["standard"], version = "^0.23.2"}
+duckdb = "^0.8.1"
+pyarrow = "^13.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.2"
+pytest-asyncio = "^0.21.1"
+ruff = "^0.0.291"
+autopep8 = "^2.0.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
