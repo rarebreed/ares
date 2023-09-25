@@ -45,7 +45,7 @@ conn = init_db(test=False)
 char_ept = "/v1/characters/"
 
 @app.get(f"{char_ept}parquet")
-async def get_parquet():
+async def get_parquet() -> FileResponse:
     df = conn.sql("SELECT * FROM char_db")
     pq_path = Path("parquet/saved.parquet")
     if pq_path.exists():
@@ -57,7 +57,7 @@ async def get_parquet():
 
 # Create 
 @app.post(char_ept)
-async def post_character(char: Character):
+async def post_character(char: Character) -> Character:
     model = char.model_dump()
     print(model)
     tbl = pa.Table.from_pylist([model], schema=Character.arrow_schema())
@@ -68,7 +68,7 @@ async def post_character(char: Character):
 
 
 @app.get(f"{char_ept}{{uid}}")
-async def get_character(uid: str):
+async def get_character(uid: str) -> Character:
     # FIXME: SQL injection.
     sql_cmd = f"SELECT * FROM char_db WHERE uid = '{uid}'"
     df = conn.sql(sql_cmd)
@@ -81,7 +81,7 @@ async def get_character(uid: str):
 
 
 @app.get(char_ept)
-async def get_characters():
+async def get_characters() -> list[Character]:
     df = conn.sql("SELECT * FROM char_db")
     batch = df.to_arrow_table()
     data = batch.to_pylist()
