@@ -7,19 +7,6 @@ import pyarrow as pa
 from pydantic import BaseModel
 init_char_pq_path = Path(__file__).parent.parent.parent / "db/characters/character_init.parquet"
 
-def die(num: int, size: int = 20):
-    def pool():
-        for _ in range(num):
-            yield randint(1, size)
-    return pool
-
-def best_of(pool: list[int], amount: int):
-    pool_size = len(pool)
-    if amount > pool_size:
-        amount = pool_size
-    start_from = pool_size - amount
-    return sorted(pool)[start_from:]
-
 class Character(BaseModel):
     uid: str
     player: str

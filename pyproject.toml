@@ -6,17 +6,16 @@ authors = ["Sean Toner <placeoftheway@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "<3.13,>=3.11"
+python = "<3.13,>=3.12"
 # Http service
-fastapi = {extras = ["all"], version = "^0.103.1"}
+fastapi = {extras = ["all"], version = "^0.108.0"}
 # Http client including async
-httpx = "^0.25.0"
+httpx = "^0.26.0"
 # Schemas, Validation, and (De)Serialization
-pydantic = "^2.3.0"
+pydantic = "^2.5.0"
 # Async usgi web service "engine" that fastapi will run on
-uvicorn = {extras = ["standard"], version = "^0.23.2"}
-duckdb = "^0.8.1"
-pyarrow = "^13.0.0"
+uvicorn = {extras = ["standard"], version = "^0.25.0"}
+pyarrow = "^14.0.0"
 
 
 [tool.poetry.group.dev.dependencies]

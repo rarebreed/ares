@@ -1,7 +1,5 @@
 
 from pathlib import Path
-import duckdb as dd
-from duckdb import DuckDBPyConnection
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 import uvicorn
