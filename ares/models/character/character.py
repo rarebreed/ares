@@ -1,11 +1,16 @@
 
 from pathlib import Path
-from random import randint, random
+from random import random
 from uuid import uuid4
 
 import pyarrow as pa
+from pyarrow import Schema
 from pydantic import BaseModel
-init_char_pq_path = Path(__file__).parent.parent.parent / "db/characters/character_init.parquet"
+
+from ares.engine.probability import best_of, die
+init_char_pq_path = Path(__file__).parent.parent.parent / \
+    "db/characters/character_init.parquet"
+
 
 class Character(BaseModel):
     uid: str
@@ -43,7 +48,7 @@ class Character(BaseModel):
         )
 
     @staticmethod
-    def arrow_schema():
+    def arrow_schema() -> Schema:
         return pa.schema([
             ("uid", pa.string()),
             ('player', pa.string()),
@@ -59,11 +64,13 @@ class Character(BaseModel):
             ("skills", pa.map_(pa.string(), pa.int64()))
         ])
 
+
 def init_parquet():
     """Used to create an initial seed
     """
     example = Character.random_character()
-    tbl = pa.Table.from_pylist([example.model_dump()], schema=Character.arrow_schema())
+    tbl = pa.Table.from_pylist(
+        [example.model_dump()], schema=Character.arrow_schema())
     import pyarrow.parquet as pq
     pq.write_table(tbl, f"{init_char_pq_path}")
 
